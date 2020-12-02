@@ -91,8 +91,9 @@ public:
 
 	int projectCost()
 	{
+		srand(time(NULL));
 		int cost = rand() % 500;
-		std::cout << "Project cost:" << cost << std::endl;
+		std::cout << "Project cost:" << cost << "$" << std::endl;
 		return cost;
 	}
 
