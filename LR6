@@ -98,7 +98,9 @@ public:
 
 	void dateRez()
 	{
-		std::cout << "Project date:" << cost << std::endl;
+		srand ( time(NULL) );                      
+ 		int sec = rand() % 10 + 1;
+		std::cout << "Project date:" << sec << std::endl;
 	}
 };
 
@@ -187,5 +189,6 @@ int main()
 	massiv[2] = new ClothingDesign(reg, col, wc, sea);*/
 		rez->display();
 		rez->projectCost();
+		rez->dateRez();
 	delete rez;
 }
