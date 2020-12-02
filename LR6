@@ -1,0 +1,191 @@
+#include <iostream>
+#include <string>
+#include <windows.h>
+#include<algorithm>
+
+#include <stdio.h>
+#include <time.h>
+#include <stdlib.h>
+
+class Design
+{
+protected:
+	std::string region, colorSpec;
+
+public:
+	Design(std::string n, std::string a)
+	{
+		std::cout << "constructor base Design class" << std::endl;
+		region = n; colorSpec = a;
+	}
+	~Design()
+	{
+		std::cout << "destructor base Design class" << std::endl;
+	}
+	virtual void display() = 0;
+};
+
+class ClothingDesign : virtual public Design
+{
+private:
+	std::string what,
+		season;
+public:
+	ClothingDesign(std::string n, std::string a, std::string t, std::string tp) :Design(n, a)
+	{
+		std::cout << "child class ClothingDesign constructor" << std::endl;
+		what = t;
+		season = tp;
+	}
+	~ClothingDesign()
+	{
+		std::cout << "child class ClothingDesign destructor" << std::endl;
+	}
+	void display() override
+	{
+		std::cout << "Appliction area:" << region << "\tColor spectrum: " << colorSpec << "\tName of clothes: " << what << "\tSeason: " <<
+			season << std::endl;
+	}
+};
+
+class WebDesign :virtual public Design
+{
+private:
+	std::string what, type;
+public:
+	WebDesign(std::string n, std::string a, std::string t, std::string tp) :Design(n, a)
+	{
+		std::cout << "child class WebDesign constructor" << std::endl;
+		what = t;
+		type = tp;
+	}
+	~WebDesign()
+	{
+		std::cout << "child class WebDesign destructor" << std::endl;
+	}
+	void display() override
+	{
+		std::cout << "Appliction area:" << region << "\tColor spectrum: " << colorSpec << "\tDesign of wich resource: " << what << "\tStyle: " << type << std::endl;
+	}
+};
+
+class RezultProject : public virtual WebDesign, public virtual ClothingDesign {
+private:
+	std::string designerName, customerName;
+public:
+	RezultProject(std::string REG, std::string COLSP, std::string wh, std::string tp, std::string desN, std::string cusN, std::string wht, std::string se) :
+		WebDesign(REG, COLSP, wh, tp), ClothingDesign(REG, COLSP, wht, se), Design(REG, COLSP)
+	{
+		designerName = desN;
+		customerName = cusN;
+		std::cout << "child class constructor rezult" << std::endl;
+	}
+	~RezultProject()
+	{
+		std::cout << "child class destructor rezult" << std::endl;
+	}
+	void display() override
+	{
+		std::cout << "Appliction area:" << region << "\tColor spectrum: " << colorSpec  << "\tDesigner name: " << designerName << "\tCustomer name: " << customerName << std::endl;
+	}
+
+	int projectCost()
+	{
+		int cost = rand() % 500;
+		std::cout << "Project cost:" << cost << std::endl;
+		return cost;
+	}
+
+	void dateRez()
+	{
+		std::cout << "Project date:" << cost << std::endl;
+	}
+};
+
+bool check(std::string str)
+{
+	std::transform(str.begin(), str.end(), str.begin(), tolower);
+	char alf[] = "abcdefghijklmnopqrstuvwxyz ";
+	int l = 0;
+	bool rez = false;
+	char* v = NULL;
+	for (int i = 0; i < str.length(); i++)
+	{
+		for (int j = 0; j < strlen(alf); j++)
+		{
+			if (str[i] == alf[j])
+			{
+				l++;
+				break;
+			}
+		}
+	}
+	if (str.length() == l && l > 2)
+	{
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+int main()
+{
+/*	int size = 3;
+	Design** massiv = new Design * [size];*/
+
+	std::string reg, col;
+	std::cout << "D E S I G N " << std::endl;
+	while (check(reg) == false)
+	{
+		std::cout << "ENTER Appliction area:" << std::endl;
+		std::getline(std::cin, reg);
+	}
+	while (check(col) == false)
+	{
+		std::cout << "ENTER Color spectrum:" << std::endl;
+		std::getline(std::cin, col);
+	}
+	std::string w, s;
+	while (check(w) == false)
+	{
+		std::cout << "ENTER Design of wich resource:" << std::endl;
+		std::getline(std::cin, w);
+	}
+	while (check(s) == false)
+	{
+		std::cout << "ENTER Style:" << std::endl;
+		std::getline(std::cin, s);
+	}
+
+	std::string wc, sea;
+	while (check(wc) == false)
+	{
+		std::cout << "ENTER Name of clothes:" << std::endl;
+		std::getline(std::cin, wc);
+	}
+	while (check(sea) == false)
+	{
+		std::cout << "ENTER Season:" << std::endl;
+		std::getline(std::cin, sea);
+	}
+
+	std::string dN, dC;
+	while (check(dN) == false)
+	{
+		std::cout << "ENTER designer name:" << std::endl;
+		std::getline(std::cin, dN);
+	}
+	while (check(dC) == false)
+	{
+		std::cout << "ENTER customer name:" << std::endl;
+		std::getline(std::cin, dC);
+	}
+    RezultProject* rez = new RezultProject(reg, col, w, wc, dN, dC, wc, sea);
+	/*massiv[0] = rez;
+	massiv[1] = new WebDesign(reg, col, w, s);
+	massiv[2] = new ClothingDesign(reg, col, wc, sea);*/
+		rez->display();
+		rez->projectCost();
+	delete rez;
+}
