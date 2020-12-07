@@ -22,7 +22,10 @@ public:
 	{
 		std::cout << "destructor base Design class" << std::endl;
 	}
-	virtual void display() = 0;
+	void displayDesign()
+	{
+		std::cout << "Appliction area:" << region << "\tColor spectrum: " << colorSpec << std::endl;
+	}
 };
 
 class ClothingDesign : virtual public Design
@@ -41,10 +44,10 @@ public:
 	{
 		std::cout << "child class ClothingDesign destructor" << std::endl;
 	}
-	void display() override
+	void displayClotDes()
 	{
-		std::cout << "Appliction area:" << region << "\tColor spectrum: " << colorSpec << "\tName of clothes: " << what << "\tSeason: " <<
-			season << std::endl;
+		Design::displayDesign();
+		std::cout <<  "\tName of clothes: " << what << "\tSeason: " <<season << std::endl;
 	}
 };
 
@@ -63,9 +66,9 @@ public:
 	{
 		std::cout << "child class WebDesign destructor" << std::endl;
 	}
-	void display() override
-	{
-		std::cout << "Appliction area:" << region << "\tColor spectrum: " << colorSpec << "\tDesign of wich resource: " << what << "\tStyle: " << type << std::endl;
+	void displayWeb(){
+		Design::displayDesign();
+		std::cout << "\tDesign of wich resource: " << what << "\tStyle: " << type << std::endl;
 	}
 };
 
@@ -84,9 +87,12 @@ public:
 	{
 		std::cout << "child class destructor rezult" << std::endl;
 	}
-	void display() override
+	void displayRezult()
 	{
-		std::cout << "Appliction area:" << region << "\tColor spectrum: " << colorSpec  << "\tDesigner name: " << designerName << "\tCustomer name: " << customerName << std::endl;
+		Design::displayDesign();
+		WebDesign::displayWeb();
+		ClothingDesign::displayClotDes();
+		std::cout << "\tDesigner name: " << designerName << "\tCustomer name: " << customerName << std::endl;
 	}
 
 	int projectCost()
@@ -190,7 +196,8 @@ int main()
 	/*massiv[0] = rez;
 	massiv[1] = new WebDesign(reg, col, w, s);
 	massiv[2] = new ClothingDesign(reg, col, wc, sea);*/
-		rez->display();
+	std::cout << "MULTIPLY INHERITANCE" << std::endl;
+		rez->displayRezult();
 		rez->projectCost();
 		rez->dateRez();
 	delete rez;
