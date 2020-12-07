@@ -30,7 +30,7 @@ public:
 
 class ClothingDesign : virtual public Design
 {
-private:
+public:
 	std::string what,
 		season;
 public:
@@ -89,9 +89,10 @@ public:
 	}
 	void displayRezult()
 	{
-		Design::displayDesign();
+		//Design::displayDesign();
 		WebDesign::displayWeb();
-		ClothingDesign::displayClotDes();
+		std::cout << "\tName of clothes: " << ClothingDesign::what << "\tSeason: " << ClothingDesign::season << std::endl;
+		//ClothingDesign::displayClotDes();
 		std::cout << "\tDesigner name: " << designerName << "\tCustomer name: " << customerName << std::endl;
 	}
 
@@ -99,7 +100,7 @@ public:
 	{
 		srand(time(NULL));
 		int cost = rand() % 500;
-		std::cout << "Project cost:" << cost << "$" << std::endl;
+		std::cout << "\tProject cost:" << cost << "$" << std::endl;
 		return cost;
 	}
 
@@ -109,7 +110,7 @@ public:
  		int sec = rand() % 30+ 1;
 		int m = rand() % 12 + 1;
 		
-		std::cout << "Project date:" << sec <<"." << m << ".2020" << std::endl;
+		std::cout << "\tProject date:" << sec <<"." << m << ".2020" << std::endl;
 	}
 };
 
