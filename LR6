@@ -22,15 +22,12 @@ public:
 	{
 		std::cout << "destructor base Design class" << std::endl;
 	}
-	void displayDesign()
-	{
-		std::cout << "Appliction area:" << region << "\tColor spectrum: " << colorSpec << std::endl;
-	}
+	virtual void display();
 };
 
-class ClothingDesign : virtual public Design
+class ClothingDesign : public Design
 {
-public:
+protected:
 	std::string what,
 		season;
 public:
@@ -44,14 +41,11 @@ public:
 	{
 		std::cout << "child class ClothingDesign destructor" << std::endl;
 	}
-	void displayClotDes()
-	{
-		Design::displayDesign();
-		std::cout <<  "\tName of clothes: " << what << "\tSeason: " <<season << std::endl;
-	}
+	void display() final;
+
 };
 
-class WebDesign :virtual public Design
+class WebDesign :public Design
 {
 private:
 	std::string what, type;
@@ -66,18 +60,16 @@ public:
 	{
 		std::cout << "child class WebDesign destructor" << std::endl;
 	}
-	void displayWeb(){
-		Design::displayDesign();
-		std::cout << "\tDesign of wich resource: " << what << "\tStyle: " << type << std::endl;
-	}
+	void display() final;
+
 };
 
-class RezultProject : public virtual WebDesign, public virtual ClothingDesign {
+class RezultProject : public WebDesign, public ClothingDesign {
 private:
 	std::string designerName, customerName;
 public:
 	RezultProject(std::string REG, std::string COLSP, std::string wh, std::string tp, std::string desN, std::string cusN, std::string wht, std::string se) :
-		WebDesign(REG, COLSP, wh, tp), ClothingDesign(REG, COLSP, wht, se), Design(REG, COLSP)
+		WebDesign(REG, COLSP, wh, tp), ClothingDesign(REG, COLSP, wht, se)
 	{
 		designerName = desN;
 		customerName = cusN;
@@ -87,12 +79,10 @@ public:
 	{
 		std::cout << "child class destructor rezult" << std::endl;
 	}
-	void displayRezult()
+	virtual void displayRezult()
 	{
-		//Design::displayDesign();
-		WebDesign::displayWeb();
-		std::cout << "\tName of clothes: " << ClothingDesign::what << "\tSeason: " << ClothingDesign::season << std::endl;
-		//ClothingDesign::displayClotDes();
+		WebDesign::display();
+		ClothingDesign::display();
 		std::cout << "\tDesigner name: " << designerName << "\tCustomer name: " << customerName << std::endl;
 	}
 
@@ -106,13 +96,30 @@ public:
 
 	void dateRez()
 	{
-		srand ( time(NULL) );                      
- 		int sec = rand() % 30+ 1;
+		srand(time(NULL));
+		int sec = rand() % 30 + 1;
 		int m = rand() % 12 + 1;
-		
-		std::cout << "\tProject date:" << sec <<"." << m << ".2020" << std::endl;
+
+		std::cout << "\tProject date:" << sec << "." << m << ".2020" << std::endl;
 	}
 };
+
+void Design::display()
+{
+	std::cout << "Appliction area:" << region << "\tColor spectrum: " << colorSpec << std::endl;
+}
+
+void ClothingDesign::display()
+{
+	Design::display();
+	std::cout << "\tName of clothes: " << what << "\tSeason: " << season << std::endl;
+}
+
+void WebDesign::display()
+{
+	Design::display();
+	std::cout << "\tDesign of wich resource: " << what << "\tStyle: " << type << std::endl;
+}
 
 bool check(std::string str)
 {
@@ -143,9 +150,6 @@ bool check(std::string str)
 
 int main()
 {
-/*	int size = 3;
-	Design** massiv = new Design * [size];*/
-
 	std::string reg, col;
 	std::cout << "D E S I G N " << std::endl;
 	while (check(reg) == false)
@@ -193,13 +197,10 @@ int main()
 		std::cout << "ENTER customer name:" << std::endl;
 		std::getline(std::cin, dC);
 	}
-    RezultProject* rez = new RezultProject(reg, col, w, wc, dN, dC, wc, sea);
-	/*massiv[0] = rez;
-	massiv[1] = new WebDesign(reg, col, w, s);
-	massiv[2] = new ClothingDesign(reg, col, wc, sea);*/
+	RezultProject* rez = new RezultProject(reg, col, w, wc, dN, dC, wc, sea);
 	std::cout << "MULTIPLY INHERITANCE" << std::endl;
-		rez->displayRezult();
-		rez->projectCost();
-		rez->dateRez();
+	rez->displayRezult();
+	rez->projectCost();
+	rez->dateRez();
 	delete rez;
 }
