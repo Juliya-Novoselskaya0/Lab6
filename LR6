@@ -22,10 +22,10 @@ public:
 	{
 		std::cout << "destructor base Design class" << std::endl;
 	}
-	virtual void display();
+	void display();
 };
 
-class ClothingDesign : public Design
+class ClothingDesign : public virtual Design
 {
 protected:
 	std::string what,
@@ -41,11 +41,11 @@ public:
 	{
 		std::cout << "child class ClothingDesign destructor" << std::endl;
 	}
-	void display() final;
+	void display();
 
 };
 
-class WebDesign :public Design
+class WebDesign :public virtual Design
 {
 private:
 	std::string what, type;
@@ -60,8 +60,7 @@ public:
 	{
 		std::cout << "child class WebDesign destructor" << std::endl;
 	}
-	void display() final;
-
+	void display();
 };
 
 class RezultProject : public WebDesign, public ClothingDesign {
@@ -69,7 +68,7 @@ private:
 	std::string designerName, customerName;
 public:
 	RezultProject(std::string REG, std::string COLSP, std::string wh, std::string tp, std::string desN, std::string cusN, std::string wht, std::string se) :
-		WebDesign(REG, COLSP, wh, tp), ClothingDesign(REG, COLSP, wht, se)
+		WebDesign(REG, COLSP, wh, tp), ClothingDesign(REG, COLSP, wht, se), Design(REG, COLSP)
 	{
 		designerName = desN;
 		customerName = cusN;
@@ -197,10 +196,12 @@ int main()
 		std::cout << "ENTER customer name:" << std::endl;
 		std::getline(std::cin, dC);
 	}
-	RezultProject* rez = new RezultProject(reg, col, w, wc, dN, dC, wc, sea);
+	RezultProject rez(reg, col, w, wc, dN, dC, wc, sea);
 	std::cout << "MULTIPLY INHERITANCE" << std::endl;
-	rez->displayRezult();
-	rez->projectCost();
-	rez->dateRez();
-	delete rez;
+	rez.displayRezult();
+	rez.projectCost();
+	rez.dateRez();
+	rez.ClothingDesign::display();
+	rez.WebDesign::display();
+	rez.Design::display();
 }
